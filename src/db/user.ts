@@ -5,20 +5,22 @@ export type User = {
   email: string;
 };
 
-export const createUser = async (email: string) => {
+export const createUser = async (email: string): Promise<User | null> => {
   const sql = `
     INSERT INTO users (email)
     VALUES ('${email}')
+    RETURNING *
   `;
 
-  await pool.query(sql);
+  const res = await pool.query<User>(sql);
+  return res.rows.length ? res.rows[0] : null;
 };
 
-export const getUserByEmail = async (email: string): Promise<User> => {
+export const getUserByEmail = async (email: string): Promise<User | null> => {
   const sql = `
     SELECT * FROM users
     WHERE email = '${email}'
   `;
   const result = await pool.query(sql);
-  return result.rows[0];
+  return result.rows.length ? result.rows[0] : null;
 };
