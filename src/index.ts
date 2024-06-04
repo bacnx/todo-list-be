@@ -22,7 +22,7 @@ app.post("/login", loginUser);
 app.post("/items", createItem);
 app.get("/items", listItem);
 app.post("/items/:id", updateItem);
-app.delete("/items", deleteItem);
+app.delete("/items/:id", deleteItem);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

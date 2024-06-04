@@ -1,12 +1,11 @@
-import camelcaseKeys from "camelcase-keys";
 import pool from "./db";
 
 export type Item = {
   id: number;
-  userID: number;
+  user_id: number;
   content: string;
-  createdAt: Date;
-  isDeleted: boolean;
+  created_at: Date;
+  is_deleted: boolean;
 };
 
 export const createItem = async ({
@@ -28,10 +27,10 @@ export const createItem = async ({
 export const getItem = async (id: number): Promise<Item> => {
   const sql = `
     SELECT * FROM todo_items
-    WHERE id = ${id}
+    WHERE id = ${id} AND is_deleted = false
   `;
   const res = await pool.query(sql);
-  return camelcaseKeys(res.rows[0]);
+  return res.rows[0];
 };
 
 export const listItemByUserID = async (userID: number): Promise<Item[]> => {

@@ -12,6 +12,7 @@ export const createItem = async (req: Request, res: Response) => {
 
     const { content } = req.body;
     const item = await dbCreateItem({ userID, content });
+    res.status(201);
     res.send({ item });
   } catch (err) {
     res.status(500);
