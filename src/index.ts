@@ -1,5 +1,6 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import {
   loginUser,
   createItem,
@@ -14,6 +15,7 @@ const app: Express = express();
 const port = process.env.PORT || 8080;
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.post("/login", loginUser);
 

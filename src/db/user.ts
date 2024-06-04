@@ -16,6 +16,15 @@ export const createUser = async (email: string): Promise<User | null> => {
   return res.rows.length ? res.rows[0] : null;
 };
 
+export const getUser = async (id: number): Promise<User | null> => {
+  const sql = `
+    SELECT * FROM users
+    WHERE id = ${id}
+  `;
+  const result = await pool.query(sql);
+  return result.rows.length ? result.rows[0] : null;
+};
+
 export const getUserByEmail = async (email: string): Promise<User | null> => {
   const sql = `
     SELECT * FROM users

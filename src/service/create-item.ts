@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
-import { createItem as dbCreateItem, getUserByEmail } from "../db";
+import { createItem as dbCreateItem } from "../db";
 
 export const createItem = async (req: Request, res: Response) => {
   try {
-    const { email, content } = req.body;
-    const user = await getUserByEmail(email);
-    if (!user) {
-      res.status(404);
-      res.send({ message: `user with email ${email} not found` });
+    const { userID } = req.cookies;
+    if (!userID) {
+      res.status(401);
+      res.send({ message: "missing userID" });
       return;
     }
 
-    const item = await dbCreateItem({ userID: user.id, content });
+    const { content } = req.body;
+    const item = await dbCreateItem({ userID, content });
     res.send({ item });
   } catch (err) {
     res.status(500);

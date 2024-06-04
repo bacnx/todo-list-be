@@ -3,7 +3,13 @@ import { listItemByUserID } from "../db";
 
 export const listItem = async (req: Request, res: Response) => {
   try {
-    const { userID } = req.body;
+    const { userID } = req.cookies;
+    if (!userID) {
+      res.status(401);
+      res.send({ message: "missing userID" });
+      return;
+    }
+
     const items = await listItemByUserID(userID);
     res.send({ items });
   } catch (err) {

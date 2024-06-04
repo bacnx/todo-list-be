@@ -9,13 +9,13 @@ export const loginUser = async (req: Request, res: Response) => {
       return;
     }
 
-    const user = await getUserByEmail(body.email);
-
-    let newUser;
+    let user = await getUserByEmail(body.email);
     if (user == null) {
-      newUser = await createUser(body.email);
+      user = await createUser(body.email);
     }
-    res.send({ user: user || newUser });
+
+    res.cookie("userID", user?.id, { maxAge: 60 * 60 * 1000 });
+    res.send({ user: user });
   } catch (err) {
     res.status(500);
     res.send({

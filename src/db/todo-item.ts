@@ -1,3 +1,4 @@
+import camelcaseKeys from "camelcase-keys";
 import pool from "./db";
 
 export type Item = {
@@ -22,6 +23,15 @@ export const createItem = async ({
   `;
   const res = await pool.query<Item>(sql);
   return res.rows[0];
+};
+
+export const getItem = async (id: number): Promise<Item> => {
+  const sql = `
+    SELECT * FROM todo_items
+    WHERE id = ${id}
+  `;
+  const res = await pool.query(sql);
+  return camelcaseKeys(res.rows[0]);
 };
 
 export const listItemByUserID = async (userID: number): Promise<Item[]> => {
