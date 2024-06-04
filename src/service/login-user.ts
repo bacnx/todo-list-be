@@ -4,7 +4,8 @@ import { createUser, getUserByEmail } from "../db";
 export const loginUser = async (req: Request, res: Response) => {
   try {
     const body = req.body;
-    if (!body.email) {
+    if (!body.email || body.email == "") {
+      res.status(422);
       res.send("missing email");
       return;
     }

@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import {
   loginUser,
   createItem,
@@ -14,8 +15,14 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 8080;
 
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
+
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors(corsOptions));
 
 app.post("/login", loginUser);
 
