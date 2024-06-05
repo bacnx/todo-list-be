@@ -73,7 +73,7 @@ export const retrieveAllItemByUserID = async (
 ): Promise<Item[]> => {
   const sql = `
     UPDATE todo_items SET is_deleted = false
-    WHERE user_id = ${userID} AND is_deleted = true
+    WHERE user_id = ${userID}
     RETURNING *
   `;
   const res = await pool.query<Item>(sql);
